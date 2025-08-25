@@ -41,31 +41,69 @@
 (define power
     (lambda (n m)
     (cond
-    ((zero? m) 1)
-    (else (x n (power n (sub1 m)))))))
+        ((zero? m) 1)
+        (else (x n (power n (sub1 m)))))))
 
 (define length
     (lambda (lat)
     (cond
-    ((null? lat) 0)
-    (else (add1 (length (cdr lat)))))))
+        ((null? lat) 0)
+        (else (add1 (length (cdr lat)))))))
 
 
 (define pick
     (lambda (n lat)
     (cond
-    ((eq? n 1) (car lat))
-    (else pick (sub1 n) (cdr lat)))))
+        ((eq? n 1) (car lat))
+        (else pick (sub1 n) (cdr lat)))))
 
 (define rempick
     (lambda (n lat)
     (cond
-    ((eq? n 1) (cdr lat))
-    (else cons (car lat) (rempick (sub1 n) (cdr lat))))))
+        ((eq? n 1) (cdr lat))
+        (else cons (car lat) (rempick (sub1 n) (cdr lat))))))
 
 (define no-nums
     (lambda (lat)
     (cond
-    ((null? lat) (quote()))
-    ((numbers? (car lat)) (no-nums (cdr lat)))
-    (else cons (car lat) (no-nums (cdr lat))))))
+        ((null? lat) (quote()))
+        ((numbers? (car lat)) (no-nums (cdr lat)))
+        (else cons (car lat) (no-nums (cdr lat))))))
+
+
+(define all-nums
+    (lambda (lat)
+    (cond
+        ((null? lat (quote())))
+        ((numbers? (car lat) (cons (car lat) (all-nums (cdr lat))))
+        (else cons all-nums (cdr lat))))))
+
+(define eqan?
+    (lambda (a1 a2)
+    (cond
+        (and (and (numbers? a1) (numbers? a2)) (= a1 a2))
+        (or (numbers? a1) (numbers? a2) #f)
+        (else (eq? a1 a2)))))
+
+
+(define occur
+    (lambda (a lat)
+    (cond
+        ((null? lat) 0)
+        ((eqan? (car lat) a) (add1 (occur (cdr lat))))
+        (else occur (cdr lat)))))
+
+(define one?
+    (lambda (n)
+        (eqan? n 1)))
+
+(define one?
+    (lambda (n)
+    (zero? #f)
+        (else zero? (sub1 n))
+
+(define rempick
+    (lambda (n lat)
+    (cond
+        ((one? n) (cdr lat))
+        (else cons (car lat) (rempick (sub1 n) (cdr lat))))))
